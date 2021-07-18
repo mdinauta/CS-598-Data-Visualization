@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<!-- Load annotation library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
+
+<!-- Add navigation buttons-->
+<input type="button" onclick="location.href='budget_by_category_and_year.html';" value="Next >>" />
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+<script>
+// set the dimensions and margins of the graph
+var margin = {
+  top: 50, 
+  right: 50, 
+  bottom: 50, 
+  left: 50},
+  
+  width = 800,
+  height = 400;
+
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+
+var x = d3.scaleLinear()
+  .domain([1962, 2020])
+  .range([ 0, width ]);
+
+var y = d3.scaleLinear()
+  .domain([0, 7000])
+  .range([ height, 0 ]);
+
+//Read the data
+d3.csv("https://raw.githubusercontent.com/mdinauta/CS-598-Data-Visualization/main/total_budget_by_year.csv",
+
+  // Now I can use this dataset:
+  function(data) {
+    
+    svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+    svg.append("g")
+      .call(d3.axisLeft(y));
+
+    // Add the line
+    svg.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 1.5)
+      .attr("d", d3.line()
+        .x(function(d) { return x(d.Year) })
+        .y(function(d) { return y(d.TotalBudget) }));
+
+    // add y-axis label
+    svg.append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 0 - margin.left)
+          .attr("x",0 - (height / 2))
+          .attr("dy", "1em")
+          .style("text-anchor", "middle")
+          .text("Earnings");
+
+  }
+)
+
+// Add Annotations
+const type = d3.annotationCalloutElbow
+
+const annotations = [{
+  note: {
+    label: "Longer text to show text wrapping",
+    title: "Annotations :)"
+  },
+  //can use x, y directly instead of data
+  x: x(2020),
+  y: y(6000),
+  dy: 5,
+  dx: 5,
+  subject: {radius: 5, radiusPadding: 0},
+}]
+
+const makeAnnotations = d3.annotation()
+  //also can set and override in the note.padding property
+  //of the annotation object
+  .notePadding(0)
+  .type(type)
+  .annotations(annotations)
+
+d3.select("svg")
+  .append("g")
+  .attr("class", "annotation-group")
+  .call(makeAnnotations)
+
+</script>

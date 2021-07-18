@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Add navigation buttons-->
+<input type="button" onclick="location.href='budget_by_category_and_year.html';" value="<< Previous" />
+
+<!-- Add 2 buttons -->
+<button onclick="update(data1)">1962</button>
+<button onclick="update(data2)">1970</button>
+<button onclick="update(data3)">1980</button>
+<button onclick="update(data4)">1990</button>
+<button onclick="update(data5)">2000</button>
+<button onclick="update(data6)">2010</button>
+<button onclick="update(data7)">2020</button>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+<script>
+
+// create 2 data_set
+var data1 = [
+	{group: 'SocialSecurity', value: 14.047},
+	{group: 'Medicare', value: 0},
+	{group: 'Medicaid', value: 0.103},
+	{group: 'IncomeSecurity', value: 6.103},
+	{group: 'FederalCivilianAndMilitaryRetirement', value: 3.027429},
+	{group: 'VeteransPrograms', value: 4.634272},
+	{group: 'OtherPrograms', value: 6.772},
+	{group: 'Defense', value: 52.55},
+	{group: 'Nondefense', value: 19.525},
+	{group: 'Interest', value: 6.889},
+];
+
+var data2 = [
+	{group: 'SocialSecurity', value: 29.647},
+	{group: 'Medicare', value: 0},
+	{group: 'Medicaid', value: 2.727},
+	{group: 'IncomeSecurity', value: 8.176},
+	{group: 'FederalCivilianAndMilitaryRetirement', value: 7.232564},
+	{group: 'VeteransPrograms', value: 7.024876},
+	{group: 'OtherPrograms', value: 10.915},
+	{group: 'Defense', value: 81.912},
+	{group: 'Nondefense', value: 38.342},
+	{group: 'Interest', value: 14.38},
+];
+
+var data3 = [
+	{group: 'SocialSecurity', value: 117.053},
+	{group: 'Medicare', value: 4.838},
+	{group: 'Medicaid', value: 13.957},
+	{group: 'IncomeSecurity', value: 44.303},
+	{group: 'FederalCivilianAndMilitaryRetirement', value: 33.686085},
+	{group: 'VeteransPrograms', value: 14.618798},
+	{group: 'OtherPrograms', value: 33.628},
+	{group: 'Defense', value: 134.629},
+	{group: 'Nondefense', value: 141.694},
+	{group: 'Interest', value: 52.533},
+];
+
+var data4 = [
+	{group: 'SocialSecurity', value: 246.495},
+	{group: 'Medicare', value: 49.51},
+	{group: 'Medicaid', value: 41.103},
+	{group: 'IncomeSecurity', value: 68.749},
+	{group: 'FederalCivilianAndMilitaryRetirement', value: 59.974},
+	{group: 'VeteransPrograms', value: 16.469},
+	{group: 'OtherPrograms', value: 85.768},
+	{group: 'Defense', value: 300.141},
+	{group: 'Nondefense', value: 200.437},
+	{group: 'Interest', value: 184.347},
+];
+
+var data5 = [
+	{group: 'SocialSecurity', value: 406.048},
+	{group: 'Medicare', value: 134.908},
+	{group: 'Medicaid', value: 117.921},
+	{group: 'IncomeSecurity', value: 133.939},
+	{group: 'FederalCivilianAndMilitaryRetirement', value: 87.823},
+	{group: 'VeteransPrograms', value: 27.058},
+	{group: 'OtherPrograms', value: 43.678},
+	{group: 'Defense', value: 294.965},
+	{group: 'Nondefense', value: 319.661},
+	{group: 'Interest', value: 222.949},
+];
+
+var data6 = [
+	{group: 'SocialSecurity', value: 700.752},
+	{group: 'Medicare', value: 324.011},
+	{group: 'Medicaid', value: 272.771},
+	{group: 'IncomeSecurity', value: 437.291},
+	{group: 'FederalCivilianAndMilitaryRetirement', value: 138.384},
+	{group: 'VeteransPrograms', value: 58.268},
+	{group: 'OtherPrograms', value: -17.758},
+	{group: 'Defense', value: 688.854},
+	{group: 'Nondefense', value: 658.312},
+	{group: 'Interest', value: 196.194},
+];
+
+var data7 = [
+	{group: 'SocialSecurity', value: 1089.827},
+	{group: 'Medicare', value: 635.037},
+	{group: 'Medicaid', value: 458.469},
+	{group: 'IncomeSecurity', value: 1052.093},
+	{group: 'FederalCivilianAndMilitaryRetirement', value: 171.215},
+	{group: 'VeteransPrograms', value: 121.746},
+	{group: 'OtherPrograms', value: 1050.894},
+	{group: 'Defense', value: 713.75},
+	{group: 'Nondefense', value: 914.124},
+	{group: 'Interest', value: 344.717},
+];
+
+// set the dimensions and margins of the graph
+var margin = {top: 30, right: 30, bottom: 70, left: 200},
+    width = 860 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// Add y axis
+var y = d3.scaleBand()
+  .range([ 0, height ])
+  .domain(data1.map(function(d) { return d.group; }))
+  .padding(.1);
+
+svg.append("g")
+  .call(d3.axisLeft(y))
+
+// Add x axis
+var x = d3.scaleLinear()
+  .domain([0, 1200])
+  .range([ 0, width]);
+
+svg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(x))
+  .selectAll("text")
+      .attr("transform", "translate(-10,0)rotate(-45)")
+      .style("text-anchor", "end");
+
+// A function that create / update the plot for a given variable:
+function update(data) {
+
+  var u = svg.selectAll("rect")
+    .data(data)
+
+  u
+    .enter()
+    .append("rect")
+    .merge(u)
+    .transition()
+    .duration(1000)
+      // .attr("y", function(d) { return y(d.group); })
+      // .attr("x", function(d) { return x(d.value); })
+      // .attr("height", y.bandwidth())
+      // .attr("widtb", function(d) { return x(d.value); })
+      // .attr("fill", "#69b3a2")
+    .attr("x", x(0) )
+    .attr("y", function(d) { return y(d.group); })
+    .attr("width", function(d) { return x(d.value); })
+    .attr("height", y.bandwidth() )
+    .attr("fill", "#69b3a2")
+
+}
+
+// Initialize the plot with the first dataset
+update(data1)
+
+</script>

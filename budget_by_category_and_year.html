@@ -1,158 +1,60 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v4.min.js"></script>
-
-<!-- Load annotation library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
-
-<!-- Add navigation buttons-->
-<input type="button" onclick="location.href='index.html';" value="<< Previous" />
-<input type="button" onclick="location.href='budget_by_category_2020.html';" value="Next >>" />
+<!-- Load d3.js & color scale-->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 
 <!-- Create a div where the graph will take place -->
 <div id="my_dataviz"></div>
 
 <script>
+
 // set the dimensions and margins of the graph
-var margin = {
-  top: 50, 
-  right: 50, 
-  bottom: 50, 
-  left: 50},
-  
-  width = 800,
-  height = 400;
+var margin = {top: 30, right: 30, bottom: 70, left: 50},
+    width = 860 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
 var svg = d3.select("#my_dataviz")
   .append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
   .append("g")
-  .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
 
-var x = d3.scaleLinear()
-  .domain([1962, 2020])
-  .range([ 0, width ])
+// Parse the Data
+d3.csv("https://raw.githubusercontent.com/mdinauta/CS-598-Data-Visualization/main/budget_by_category_and_year.csv", function(data) {
 
-var y = d3.scaleLinear()
-  .domain([0, 1500])
-  .range([ height, 0 ]);
+  //////////
+  // GENERAL //
+  //////////
 
-//Read the data
-d3.csv("https://raw.githubusercontent.com/mdinauta/CS-598-Data-Visualization/main/budget_by_category_and_year.csv",
+  // List of groups = header of the csv files
+  var keys = data.columns.slice(1)
 
-  // Now I can use this dataset:
-  function(data) {
-    
-    svg.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x).tickFormat(d3.format("d")));
-      
-    svg.append("g")
-      .call(d3.axisLeft(y));
+  // color palette
+  var color = d3.scaleOrdinal()
+    .domain(keys)
+    .range(d3.schemeSet2);
 
-    // Add line
-    svg.append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.Year) })
-        .y(function(d) { return y(d.SocialSecurity) }));
+  //stack the data?
+  var stackedData = d3.stack()
+    .keys(keys)
+    (data)
 
-    // Add line
-    svg.append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "red")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.Year) })
-        .y(function(d) { return y(d.Medicare) }));
+  //////////
+  // AXIS //
+  //////////
 
-    // Add line
-    svg.append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "MediumSeaGreen")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.Year) })
-        .y(function(d) { return y(d.Medicaid) }));
-
-    // Add line
-    svg.append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "Violet")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.Year) })
-        .y(function(d) { return y(d.IncomeSecurity) }));
-
-    // Add line
-    svg.append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "DodgerBlue")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.Year) })
-        .y(function(d) { return y(d.FederalCivilianAndMilitaryRetirement) }));
-
-    // Add line
-    svg.append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "Orange")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.Year) })
-        .y(function(d) { return y(d.VeteransPrograms) }));
-
-    // Add line
-    svg.append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "DarkGoldenRod")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.Year) })
-        .y(function(d) { return y(d.OtherPrograms) }));
-
-    // Add line
-    svg.append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "DarkGreen")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.Year) })
-        .y(function(d) { return y(d.Defense) }));
-
-    // Add line
-    svg.append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "DarkMagenta")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.Year) })
-        .y(function(d) { return y(d.Nondefense) }));
-
-    // Add line
-    svg.append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "Indigo")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.Year) })
-        .y(function(d) { return y(d.Interest) }));
+  // Add X axis
+  var x = d3.scaleLinear()
+    .domain(d3.extent(data, function(d) { return d.year; }))
+    .range([ 0, width ]);
+  var xAxis = svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x).ticks(5))
 
     // add y-axis label
     svg.append("text")
@@ -161,7 +63,7 @@ d3.csv("https://raw.githubusercontent.com/mdinauta/CS-598-Data-Visualization/mai
           .attr("x",0 - (height / 2))
           .attr("dy", "1em")
           .style("text-anchor", "middle")
-          .text("Total Outlays");
+          .text("Total Budget");
 
     // Add x-axis label
     svg.append("text")
@@ -170,38 +72,135 @@ d3.csv("https://raw.githubusercontent.com/mdinauta/CS-598-Data-Visualization/mai
         .attr("y", height + margin.top - 10)
         .text("Year");
 
-    // Handmade legend
-    svg.append("circle").attr("cx",200).attr("cy",115).attr("r", 6).style("fill", "steelblue")
-    svg.append("text").attr("x", 210).attr("y", 115).text("Social Security").style("font-size", "15px").attr("alignment-baseline","middle")
+  // Add Y axis
+  var y = d3.scaleLinear()
+    .domain([0, 6600])
+    .range([ height, 0 ]);
+  svg.append("g")
+    .call(d3.axisLeft(y).ticks(5))
 
-    svg.append("circle").attr("cx",200).attr("cy",135).attr("r", 6).style("fill", "red")
-    svg.append("text").attr("x", 210).attr("y", 135).text("Medicare").style("font-size", "15px").attr("alignment-baseline","middle")
+  //////////
+  // BRUSHING AND CHART //
+  //////////
 
-    svg.append("circle").attr("cx",200).attr("cy",155).attr("r", 6).style("fill", "MediumSeaGreen")
-    svg.append("text").attr("x", 210).attr("y", 155).text("Medicaid").style("font-size", "15px").attr("alignment-baseline","middle")
+  // Add a clipPath: everything out of this area won't be drawn.
+  var clip = svg.append("defs").append("svg:clipPath")
+      .attr("id", "clip")
+      .append("svg:rect")
+      .attr("width", width )
+      .attr("height", height )
+      .attr("x", 0)
+      .attr("y", 0);
 
-    svg.append("circle").attr("cx",200).attr("cy",175).attr("r", 6).style("fill", "Violet")
-    svg.append("text").attr("x", 210).attr("y", 175).text("Income Security").style("font-size", "15px").attr("alignment-baseline","middle")
+  // Add brushing
+  var brush = d3.brushX()                 // Add the brush feature using the d3.brush function
+      .extent( [ [0,0], [width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+      .on("end", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
 
-    svg.append("circle").attr("cx",200).attr("cy",195).attr("r", 6).style("fill", "DodgerBlue")
-    svg.append("text").attr("x", 210).attr("y", 195).text("Federal Civilian And Military Retirement").style("font-size", "15px").attr("alignment-baseline","middle")
+  // Create the scatter variable: where both the circles and the brush take place
+  var areaChart = svg.append('g')
+    .attr("clip-path", "url(#clip)")
 
-    svg.append("circle").attr("cx",200).attr("cy",215).attr("r", 6).style("fill", "Orange")
-    svg.append("text").attr("x", 210).attr("y", 215).text("Veterans Programs").style("font-size", "15px").attr("alignment-baseline","middle")
+  // Area generator
+  var area = d3.area()
+    .x(function(d) { return x(d.data.year); })
+    .y0(function(d) { return y(d[0]); })
+    .y1(function(d) { return y(d[1]); })
 
-    svg.append("circle").attr("cx",200).attr("cy",235).attr("r", 6).style("fill", "DarkGoldenRod")
-    svg.append("text").attr("x", 210).attr("y", 235).text("Other Programs").style("font-size", "15px").attr("alignment-baseline","middle")
+  // Show the areas
+  areaChart
+    .selectAll("mylayers")
+    .data(stackedData)
+    .enter()
+    .append("path")
+      .attr("class", function(d) { return "myArea " + d.key })
+      .style("fill", function(d) { return color(d.key); })
+      .attr("d", area)
 
-    svg.append("circle").attr("cx",200).attr("cy",255).attr("r", 6).style("fill", "DarkGreen")
-    svg.append("text").attr("x", 210).attr("y", 255).text("Defense").style("font-size", "15px").attr("alignment-baseline","middle")
+  // Add the brushing
+  areaChart
+    .append("g")
+      .attr("class", "brush")
+      .call(brush);
 
-    svg.append("circle").attr("cx",200).attr("cy",275).attr("r", 6).style("fill", "DarkMagenta")
-    svg.append("text").attr("x", 210).attr("y", 275).text("Nondefense").style("font-size", "15px").attr("alignment-baseline","middle")
+  var idleTimeout
+  function idled() { idleTimeout = null; }
 
-    svg.append("circle").attr("cx",200).attr("cy",295).attr("r", 6).style("fill", "Indigo")
-    svg.append("text").attr("x", 210).attr("y", 295).text("Interest").style("font-size", "15px").attr("alignment-baseline","middle")
+  // A function that update the chart for given boundaries
+  function updateChart() {
 
-  }
-)
+    extent = d3.event.selection
 
+    // If no selection, back to initial coordinate. Otherwise, update X axis domain
+    if(!extent){
+      if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
+      x.domain(d3.extent(data, function(d) { return d.year; }))
+    }else{
+      x.domain([ x.invert(extent[0]), x.invert(extent[1]) ])
+      areaChart.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
+    }
+
+    // Update axis and area position
+    xAxis.transition().duration(1000).call(d3.axisBottom(x).ticks(5))
+    areaChart
+      .selectAll("path")
+      .transition().duration(1000)
+      .attr("d", area)
+    }
+
+
+
+    //////////
+    // HIGHLIGHT GROUP //
+    //////////
+
+    // What to do when one group is hovered
+    var highlight = function(d){
+      console.log(d)
+      // reduce opacity of all groups
+      d3.selectAll(".myArea").style("opacity", .1)
+      // expect the one that is hovered
+      d3.select("."+d).style("opacity", 1)
+    }
+
+    // And when it is not hovered anymore
+    var noHighlight = function(d){
+      d3.selectAll(".myArea").style("opacity", 1)
+    }
+
+
+
+    //////////
+    // LEGEND //
+    //////////
+
+    // Add one dot in the legend for each name.
+    var size = 20
+    svg.selectAll("myrect")
+      .data(keys)
+      .enter()
+      .append("rect")
+        .attr("x", 50)
+        .attr("y", function(d,i){ return 10 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .attr("width", size)
+        .attr("height", size)
+        .style("fill", function(d){ return color(d)})
+        .on("mouseover", highlight)
+        .on("mouseleave", noHighlight)
+
+    // Add one dot in the legend for each name.
+    svg.selectAll("mylabels")
+      .data(keys)
+      .enter()
+      .append("text")
+        .attr("x", 60 + size*1.2)
+        .attr("y", function(d,i){ return 10 + i*(size+5) + (size/2)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .style("fill", function(d){ return color(d)})
+        .text(function(d){ return d})
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
+        .on("mouseover", highlight)
+        .on("mouseleave", noHighlight)
+
+})
 </script>

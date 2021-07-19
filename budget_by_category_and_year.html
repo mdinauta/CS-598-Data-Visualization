@@ -5,15 +5,32 @@
 <script src="https://d3js.org/d3.v4.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 
+<style> 
+#title {
+  font-size: 25px;
+  padding-left: 275px;
+}
+</style>
+
+<p id='title'>COVID-19 Impact to the Federal Budget</p>
+
+<!-- Add navigation buttons-->
+<input type="button" onclick="location.href='index.html';" value="<< Previous" />
+<input type="button" onclick="location.href='budget_by_category_2020.html';" value="Next >>" />
+
 <!-- Create a div where the graph will take place -->
 <div id="my_dataviz"></div>
 
 <script>
 
 // set the dimensions and margins of the graph
-var margin = {top: 30, right: 30, bottom: 70, left: 50},
-    width = 860 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+var margin = {
+  top: 50, 
+  right: 175, 
+  bottom: 50, 
+  left: 60},
+  width = 860,
+  height = 400;
 
 // append the svg object to the body of the page
 var svg = d3.select("#my_dataviz")

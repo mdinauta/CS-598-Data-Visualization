@@ -3,9 +3,17 @@
 
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.min.js"></script>
-
 <!-- Load annotation library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
+
+<style> 
+#title {
+  font-size: 25px;
+  padding-left: 275px;
+}
+</style>
+
+<p id='title'>COVID-19 Impact to the Federal Budget</p>
 
 <!-- Add navigation buttons-->
 <input type="button" onclick="location.href='budget_by_category_and_year.html';" value="Next >>" />
@@ -99,44 +107,42 @@ d3.csv("https://raw.githubusercontent.com/mdinauta/CS-598-Data-Visualization/mai
         .x(function(d) { return x(d.Year) })
         .y(function(d) { return y(d.TotalBudget) }))
 
-  // Create a rect on top of the svg area: this rectangle recovers mouse position
-  svg
-    .append('rect')
-    .style("fill", "none")
-    .style("pointer-events", "all")
-    .attr('width', width)
-    .attr('height', height)
-    .on('mouseover', mouseover)
-    .on('mousemove', mousemove)
-    .on('mouseout', mouseout);
+    // Create a rect on top of the svg area: this rectangle recovers mouse position
+    svg
+      .append('rect')
+      .style("fill", "none")
+      .style("pointer-events", "all")
+      .attr('width', width)
+      .attr('height', height)
+      .on('mouseover', mouseover)
+      .on('mousemove', mousemove)
+      .on('mouseout', mouseout);
 
-
-  // What happens when the mouse move -> show the annotations at the right positions.
-  function mouseover() {
-    focus.style("opacity", 1)
-    focusText.style("opacity",1)
-  }
-
-  function mousemove() {
-    // recover coordinate we need
-    var x0 = x.invert(d3.mouse(this)[0]);
-    var i = bisect(data, x0, 1);
-    selectedData = data[i]
-    focus
-      .attr("cx", x(selectedData.Year))
-      .attr("cy", y(selectedData.TotalBudget))
-    focusText
-      .html("Total Budget:" + selectedData.TotalBudget)
-      .attr("x", x(selectedData.Year)+15)
-      .attr("y", y(selectedData.TotalBudget))
+    // What happens when the mouse move -> show the annotations at the right positions.
+    function mouseover() {
+      focus.style("opacity", 1)
+      focusText.style("opacity",1)
     }
-  function mouseout() {
-    focus.style("opacity", 0)
-    focusText.style("opacity", 0)
-  }
 
+    function mousemove() {
+      // recover coordinate we need
+      var x0 = x.invert(d3.mouse(this)[0]);
+      var i = bisect(data, x0, 1);
+      selectedData = data[i]
+      focus
+        .attr("cx", x(selectedData.Year))
+        .attr("cy", y(selectedData.TotalBudget))
+      focusText
+        .html("Total Budget:" + selectedData.TotalBudget)
+        .attr("x", x(selectedData.Year)+15)
+        .attr("y", y(selectedData.TotalBudget))
+      }
 
-  }
+    function mouseout() {
+      focus.style("opacity", 0)
+      focusText.style("opacity", 0)
+      }
+    }
 )
 
 // Add Annotations
@@ -145,20 +151,19 @@ const type = d3.annotationCalloutElbow
 const annotations = [{
   note: {
     label: "Longer text to show text wrapping",
-    title: "Annotations :)"
   },
   //can use x, y directly instead of data
-  x: x(2020),
-  y: y(6000),
-  dy: 5,
-  dx: 5,
-  subject: {radius: 5, radiusPadding: 0},
+  x: x(2020) + margin.left,
+  y: y(6551) + margin.top,
+  dy: 0,
+  dx: -15,
+  subject: {radius:0, radiusPadding: 0},
 }]
 
 const makeAnnotations = d3.annotation()
-  //also can set and override in the note.padding property
-  //of the annotation object
-  .notePadding(0)
+  // also can set and override in the note.padding property
+  // of the annotation object
+  .notePadding(2)
   .type(type)
   .annotations(annotations)
 

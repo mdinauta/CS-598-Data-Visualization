@@ -4,6 +4,15 @@
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
 
+<style> 
+#title {
+  font-size: 25px;
+  padding-left: 275px;
+}
+</style>
+
+<p id='title'>COVID-19 Impact to the Federal Budget</p>
+
 <!-- Add navigation buttons-->
 <input type="button" onclick="location.href='budget_by_category_and_year.html';" value="<< Previous" />
 
@@ -23,100 +32,104 @@
 
 // create 2 data_set
 var data1 = [
-	{group: 'SocialSecurity', value: 14.047},
+	{group: 'Social Security', value: 14.047},
 	{group: 'Medicare', value: 0},
 	{group: 'Medicaid', value: 0.103},
-	{group: 'IncomeSecurity', value: 6.103},
-	{group: 'FederalCivilianAndMilitaryRetirement', value: 3.027429},
-	{group: 'VeteransPrograms', value: 4.634272},
-	{group: 'OtherPrograms', value: 6.772},
+	{group: 'Income Security', value: 6.103},
+	{group: 'Fed. Civ. & Military Retirement', value: 3.027429},
+	{group: 'Veterans Programs', value: 4.634272},
+	{group: 'Other Programs', value: 6.772},
 	{group: 'Defense', value: 52.55},
 	{group: 'Nondefense', value: 19.525},
 	{group: 'Interest', value: 6.889},
 ];
 
 var data2 = [
-	{group: 'SocialSecurity', value: 29.647},
+	{group: 'Social Security', value: 29.647},
 	{group: 'Medicare', value: 0},
 	{group: 'Medicaid', value: 2.727},
-	{group: 'IncomeSecurity', value: 8.176},
-	{group: 'FederalCivilianAndMilitaryRetirement', value: 7.232564},
-	{group: 'VeteransPrograms', value: 7.024876},
-	{group: 'OtherPrograms', value: 10.915},
+	{group: 'Income Security', value: 8.176},
+	{group: 'Fed. Civ. & Military Retirement', value: 7.232564},
+	{group: 'Veterans Programs', value: 7.024876},
+	{group: 'Other Programs', value: 10.915},
 	{group: 'Defense', value: 81.912},
 	{group: 'Nondefense', value: 38.342},
 	{group: 'Interest', value: 14.38},
 ];
 
 var data3 = [
-	{group: 'SocialSecurity', value: 117.053},
+	{group: 'Social Security', value: 117.053},
 	{group: 'Medicare', value: 4.838},
 	{group: 'Medicaid', value: 13.957},
-	{group: 'IncomeSecurity', value: 44.303},
-	{group: 'FederalCivilianAndMilitaryRetirement', value: 33.686085},
-	{group: 'VeteransPrograms', value: 14.618798},
-	{group: 'OtherPrograms', value: 33.628},
+	{group: 'Income Security', value: 44.303},
+	{group: 'Fed. Civ. & Military Retirement', value: 33.686085},
+	{group: 'Veterans Programs', value: 14.618798},
+	{group: 'Other Programs', value: 33.628},
 	{group: 'Defense', value: 134.629},
 	{group: 'Nondefense', value: 141.694},
 	{group: 'Interest', value: 52.533},
 ];
 
 var data4 = [
-	{group: 'SocialSecurity', value: 246.495},
+	{group: 'Social Security', value: 246.495},
 	{group: 'Medicare', value: 49.51},
 	{group: 'Medicaid', value: 41.103},
-	{group: 'IncomeSecurity', value: 68.749},
-	{group: 'FederalCivilianAndMilitaryRetirement', value: 59.974},
-	{group: 'VeteransPrograms', value: 16.469},
-	{group: 'OtherPrograms', value: 85.768},
+	{group: 'Income Security', value: 68.749},
+	{group: 'Fed. Civ. & Military Retirement', value: 59.974},
+	{group: 'Veterans Programs', value: 16.469},
+	{group: 'Other Programs', value: 85.768},
 	{group: 'Defense', value: 300.141},
 	{group: 'Nondefense', value: 200.437},
 	{group: 'Interest', value: 184.347},
 ];
 
 var data5 = [
-	{group: 'SocialSecurity', value: 406.048},
+	{group: 'Social Security', value: 406.048},
 	{group: 'Medicare', value: 134.908},
 	{group: 'Medicaid', value: 117.921},
-	{group: 'IncomeSecurity', value: 133.939},
-	{group: 'FederalCivilianAndMilitaryRetirement', value: 87.823},
-	{group: 'VeteransPrograms', value: 27.058},
-	{group: 'OtherPrograms', value: 43.678},
+	{group: 'Income Security', value: 133.939},
+	{group: 'Fed. Civ. & Military Retirement', value: 87.823},
+	{group: 'Veterans Programs', value: 27.058},
+	{group: 'Other Programs', value: 43.678},
 	{group: 'Defense', value: 294.965},
 	{group: 'Nondefense', value: 319.661},
 	{group: 'Interest', value: 222.949},
 ];
 
 var data6 = [
-	{group: 'SocialSecurity', value: 700.752},
+	{group: 'Social Security', value: 700.752},
 	{group: 'Medicare', value: 324.011},
 	{group: 'Medicaid', value: 272.771},
-	{group: 'IncomeSecurity', value: 437.291},
-	{group: 'FederalCivilianAndMilitaryRetirement', value: 138.384},
-	{group: 'VeteransPrograms', value: 58.268},
-	{group: 'OtherPrograms', value: -17.758},
+	{group: 'Income Security', value: 437.291},
+	{group: 'Fed. Civ. & Military Retirement', value: 138.384},
+	{group: 'Veterans Programs', value: 58.268},
+	{group: 'Other Programs', value: -17.758},
 	{group: 'Defense', value: 688.854},
 	{group: 'Nondefense', value: 658.312},
 	{group: 'Interest', value: 196.194},
 ];
 
 var data7 = [
-	{group: 'SocialSecurity', value: 1089.827},
+	{group: 'Social Security', value: 1089.827},
 	{group: 'Medicare', value: 635.037},
 	{group: 'Medicaid', value: 458.469},
-	{group: 'IncomeSecurity', value: 1052.093},
-	{group: 'FederalCivilianAndMilitaryRetirement', value: 171.215},
-	{group: 'VeteransPrograms', value: 121.746},
-	{group: 'OtherPrograms', value: 1050.894},
+	{group: 'Income Security', value: 1052.093},
+	{group: 'Fed. Civ. & Military Retirement', value: 171.215},
+	{group: 'Veterans Programs', value: 121.746},
+	{group: 'Other Programs', value: 1050.894},
 	{group: 'Defense', value: 713.75},
 	{group: 'Nondefense', value: 914.124},
 	{group: 'Interest', value: 344.717},
 ];
 
 // set the dimensions and margins of the graph
-var margin = {top: 30, right: 30, bottom: 70, left: 200},
-    width = 860 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+var margin = {
+  top: 50, 
+  right: 175, 
+  bottom: 50, 
+  left: 160},
+  width = 860,
+  height = 400;
 
 // append the svg object to the body of the page
 var svg = d3.select("#my_dataviz")
@@ -138,7 +151,7 @@ svg.append("g")
 
 // Add x axis
 var x = d3.scaleLinear()
-  .domain([0, 1200])
+  .domain([0, 1100])
   .range([ 0, width]);
 
 svg.append("g")

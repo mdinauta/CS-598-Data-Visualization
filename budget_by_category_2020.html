@@ -4,6 +4,15 @@
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
 
+<style> 
+#title {
+  font-size: 25px;
+  padding-left: 275px;
+}
+</style>
+
+<p id='title'>COVID-19 Impact to the Federal Budget</p>
+
 <!-- Add navigation buttons-->
 <input type="button" onclick="location.href='budget_by_category_and_year.html';" value="<< Previous" />
 <input type="button" onclick="location.href='budget_by_category_decade_switcher.html';" value="Next >>" />
@@ -14,9 +23,13 @@
 <script>
 
 // set the dimensions and margins of the graph
-var margin = {top: 20, right: 30, bottom: 40, left: 90},
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+var margin = {
+  top: 50, 
+  right: 175, 
+  bottom: 50, 
+  left: 160},
+  width = 860,
+  height = 400;
 
 // append the svg object to the body of the page
 var svg = d3.select("#my_dataviz")
@@ -32,7 +45,7 @@ d3.csv("https://raw.githubusercontent.com/mdinauta/CS-598-Data-Visualization/mai
 
   // Add X axis
   var x = d3.scaleLinear()
-    .domain([0, 1200])
+    .domain([0, 1100])
     .range([ 0, width]);
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")

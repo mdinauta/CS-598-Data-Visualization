@@ -17,9 +17,9 @@
 // set the dimensions and margins of the graph
 var margin = {
   top: 50, 
-  right: 50, 
+  right: 175, 
   bottom: 50, 
-  left: 50},
+  left: 60},
   
   width = 800,
   height = 400;
@@ -53,6 +53,42 @@ d3.csv("https://raw.githubusercontent.com/mdinauta/CS-598-Data-Visualization/mai
     svg.append("g")
       .call(d3.axisLeft(y));
 
+    // add y-axis label
+    svg.append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 0 - margin.left)
+          .attr("x",0 - (height / 2))
+          .attr("dy", "1em")
+          .style("text-anchor", "middle")
+          .text("Total Budget");
+
+    // Add x-axis label
+    svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("x", width/2 + margin.left)
+        .attr("y", height + margin.top - 10)
+        .text("Year");
+
+  // This allows to find the closest X index of the mouse:
+  var bisect = d3.bisector(function(d) { return d.Year; }).left;
+
+  // Create the circle that travels along the curve of chart
+  var focus = svg
+    .append('g')
+    .append('circle')
+      .style("fill", "none")
+      .attr("stroke", "black")
+      .attr('r', 8.5)
+      .style("opacity", 0)
+
+  // Create the text that travels along the curve of chart
+  var focusText = svg
+    .append('g')
+    .append('text')
+      .style("opacity", 0)
+      .attr("text-anchor", "left")
+      .attr("alignment-baseline", "middle")
+
     // Add the line
     svg.append("path")
       .datum(data)
@@ -61,16 +97,44 @@ d3.csv("https://raw.githubusercontent.com/mdinauta/CS-598-Data-Visualization/mai
       .attr("stroke-width", 1.5)
       .attr("d", d3.line()
         .x(function(d) { return x(d.Year) })
-        .y(function(d) { return y(d.TotalBudget) }));
+        .y(function(d) { return y(d.TotalBudget) }))
 
-    // add y-axis label
-    svg.append("text")
-          .attr("transform", "rotate(-90)")
-          .attr("y", 0 - margin.left)
-          .attr("x",0 - (height / 2))
-          .attr("dy", "1em")
-          .style("text-anchor", "middle")
-          .text("Earnings");
+  // Create a rect on top of the svg area: this rectangle recovers mouse position
+  svg
+    .append('rect')
+    .style("fill", "none")
+    .style("pointer-events", "all")
+    .attr('width', width)
+    .attr('height', height)
+    .on('mouseover', mouseover)
+    .on('mousemove', mousemove)
+    .on('mouseout', mouseout);
+
+
+  // What happens when the mouse move -> show the annotations at the right positions.
+  function mouseover() {
+    focus.style("opacity", 1)
+    focusText.style("opacity",1)
+  }
+
+  function mousemove() {
+    // recover coordinate we need
+    var x0 = x.invert(d3.mouse(this)[0]);
+    var i = bisect(data, x0, 1);
+    selectedData = data[i]
+    focus
+      .attr("cx", x(selectedData.Year))
+      .attr("cy", y(selectedData.TotalBudget))
+    focusText
+      .html("Total Budget:" + selectedData.TotalBudget)
+      .attr("x", x(selectedData.Year)+15)
+      .attr("y", y(selectedData.TotalBudget))
+    }
+  function mouseout() {
+    focus.style("opacity", 0)
+    focusText.style("opacity", 0)
+  }
+
 
   }
 )

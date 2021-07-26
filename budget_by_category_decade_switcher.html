@@ -9,12 +9,22 @@
   font-size: 25px;
   padding-left: 275px;
 }
+
+#chart_title {
+  padding-left: 350px;
+}
+
+#description {
+  padding-left: 20px;
+}
 </style>
 
 <p id='title'>COVID-19 Impact to the Federal Budget</p>
 
 <!-- Add navigation buttons-->
 <input type="button" onclick="location.href='budget_by_category_and_year.html';" value="<< Previous" />
+
+<p id='chart_title'>Federal Spending by Category for Selected Year</p>
 
 <!-- Add 2 buttons -->
 <button onclick="update(data1)">1962</button>
@@ -33,93 +43,93 @@
 // create 2 data_set
 var data1 = [
 	{group: 'Social Security', value: 14.047},
+	{group: 'Income Security', value: 6.103},
+	{group: 'Other Programs', value: 6.772},
+	{group: 'Nondefense', value: 19.525},
+	{group: 'Defense', value: 52.55},
 	{group: 'Medicare', value: 0},
 	{group: 'Medicaid', value: 0.103},
-	{group: 'Income Security', value: 6.103},
+	{group: 'Interest', value: 6.889},
 	{group: 'Fed. Civ. & Military Retirement', value: 3.027429},
 	{group: 'Veterans Programs', value: 4.634272},
-	{group: 'Other Programs', value: 6.772},
-	{group: 'Defense', value: 52.55},
-	{group: 'Nondefense', value: 19.525},
-	{group: 'Interest', value: 6.889},
 ];
 
 var data2 = [
 	{group: 'Social Security', value: 29.647},
+	{group: 'Income Security', value: 8.176},
+	{group: 'Other Programs', value: 10.915},
+	{group: 'Nondefense', value: 38.342},
+	{group: 'Defense', value: 81.912},
 	{group: 'Medicare', value: 0},
 	{group: 'Medicaid', value: 2.727},
-	{group: 'Income Security', value: 8.176},
+	{group: 'Interest', value: 14.38},
 	{group: 'Fed. Civ. & Military Retirement', value: 7.232564},
 	{group: 'Veterans Programs', value: 7.024876},
-	{group: 'Other Programs', value: 10.915},
-	{group: 'Defense', value: 81.912},
-	{group: 'Nondefense', value: 38.342},
-	{group: 'Interest', value: 14.38},
 ];
 
 var data3 = [
 	{group: 'Social Security', value: 117.053},
+	{group: 'Income Security', value: 44.303},
+	{group: 'Other Programs', value: 33.628},
+	{group: 'Nondefense', value: 141.694},
+	{group: 'Defense', value: 134.629},
 	{group: 'Medicare', value: 4.838},
 	{group: 'Medicaid', value: 13.957},
-	{group: 'Income Security', value: 44.303},
+	{group: 'Interest', value: 52.533},
 	{group: 'Fed. Civ. & Military Retirement', value: 33.686085},
 	{group: 'Veterans Programs', value: 14.618798},
-	{group: 'Other Programs', value: 33.628},
-	{group: 'Defense', value: 134.629},
-	{group: 'Nondefense', value: 141.694},
-	{group: 'Interest', value: 52.533},
 ];
 
 var data4 = [
 	{group: 'Social Security', value: 246.495},
+	{group: 'Income Security', value: 68.749},
+	{group: 'Other Programs', value: 85.768},
+	{group: 'Nondefense', value: 200.437},
+	{group: 'Defense', value: 300.141},
 	{group: 'Medicare', value: 49.51},
 	{group: 'Medicaid', value: 41.103},
-	{group: 'Income Security', value: 68.749},
+	{group: 'Interest', value: 184.347},
 	{group: 'Fed. Civ. & Military Retirement', value: 59.974},
 	{group: 'Veterans Programs', value: 16.469},
-	{group: 'Other Programs', value: 85.768},
-	{group: 'Defense', value: 300.141},
-	{group: 'Nondefense', value: 200.437},
-	{group: 'Interest', value: 184.347},
 ];
 
 var data5 = [
 	{group: 'Social Security', value: 406.048},
+	{group: 'Income Security', value: 133.939},
+	{group: 'Other Programs', value: 43.678},
+	{group: 'Nondefense', value: 319.661},
+	{group: 'Defense', value: 294.965},
 	{group: 'Medicare', value: 134.908},
 	{group: 'Medicaid', value: 117.921},
-	{group: 'Income Security', value: 133.939},
+	{group: 'Interest', value: 222.949},
 	{group: 'Fed. Civ. & Military Retirement', value: 87.823},
 	{group: 'Veterans Programs', value: 27.058},
-	{group: 'Other Programs', value: 43.678},
-	{group: 'Defense', value: 294.965},
-	{group: 'Nondefense', value: 319.661},
-	{group: 'Interest', value: 222.949},
 ];
 
 var data6 = [
 	{group: 'Social Security', value: 700.752},
+	{group: 'Income Security', value: 437.291},
+	{group: 'Other Programs', value: -17.758},
+	{group: 'Nondefense', value: 658.312},
+	{group: 'Defense', value: 688.854},
 	{group: 'Medicare', value: 324.011},
 	{group: 'Medicaid', value: 272.771},
-	{group: 'Income Security', value: 437.291},
+	{group: 'Interest', value: 196.194},
 	{group: 'Fed. Civ. & Military Retirement', value: 138.384},
 	{group: 'Veterans Programs', value: 58.268},
-	{group: 'Other Programs', value: -17.758},
-	{group: 'Defense', value: 688.854},
-	{group: 'Nondefense', value: 658.312},
-	{group: 'Interest', value: 196.194},
 ];
 
 var data7 = [
 	{group: 'Social Security', value: 1089.827},
+	{group: 'Income Security', value: 1052.093},
+	{group: 'Other Programs', value: 1050.894},	
+	{group: 'Nondefense', value: 914.124},
+	{group: 'Defense', value: 713.75},
 	{group: 'Medicare', value: 635.037},
 	{group: 'Medicaid', value: 458.469},
-	{group: 'Income Security', value: 1052.093},
+	{group: 'Interest', value: 344.717},
 	{group: 'Fed. Civ. & Military Retirement', value: 171.215},
 	{group: 'Veterans Programs', value: 121.746},
-	{group: 'Other Programs', value: 1050.894},
-	{group: 'Defense', value: 713.75},
-	{group: 'Nondefense', value: 914.124},
-	{group: 'Interest', value: 344.717},
 ];
 
 // set the dimensions and margins of the graph
@@ -161,6 +171,22 @@ svg.append("g")
       .attr("transform", "translate(-10,0)rotate(-45)")
       .style("text-anchor", "end");
 
+// add y-axis label
+svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Category");
+
+// Add x-axis label
+svg.append("text")
+    .attr("text-anchor", "middle")
+    .attr("x", width/2)
+    .attr("y", height + margin.top)
+    .text("Total Budget");
+
 // A function that create / update the plot for a given variable:
 function update(data) {
 
@@ -190,3 +216,13 @@ function update(data) {
 update(data1)
 
 </script>
+
+<p id='description'>
+This chart displays federal spending by category for the selected year.<br>
+Click through the year buttons to see how the budget has changed over time. The ordering of the columns will stay the same throughout - <br>
+this ordering reflects the ranking of categories in 2020. 
+
+We see that Defense was the largest spending category up until the 2000s, when it began to be outpaced by Social Security.
+We also see that the spend attributed to the "Other Programs" category was negliable prior to 2020, when it became the category to which COVID-19
+related spend was allocated.
+</p>

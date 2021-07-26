@@ -10,13 +10,23 @@
   font-size: 25px;
   padding-left: 275px;
 }
+
+#chart_title {
+  padding-left: 350px;
+}
+
+#description {
+  padding-left: 20px;
+}
 </style>
 
 <p id='title'>COVID-19 Impact to the Federal Budget</p>
 
 <!-- Add navigation buttons-->
-<input type="button" onclick="location.href='index.html';" value="<< Previous" />
-<input type="button" onclick="location.href='budget_by_category_2020.html';" value="Next >>" />
+<input type="button" onclick="location.href='budget_by_category_2020.html';" value="<< Previous" />
+<input type="button" onclick="location.href='budget_by_category_decade_switcher.html';" value="Next >>" />
+
+<p id='chart_title'>Federal Spending by Category and Year</p>
 
 <!-- Create a div where the graph will take place -->
 <div id="my_dataviz"></div>
@@ -71,7 +81,7 @@ d3.csv("https://raw.githubusercontent.com/mdinauta/CS-598-Data-Visualization/mai
     .range([ 0, width ]);
   var xAxis = svg.append("g")
     .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x).ticks(5))
+    .call(d3.axisBottom(x).ticks(5).tickFormat(d3.format("d")));
 
     // add y-axis label
     svg.append("text")
@@ -221,3 +231,9 @@ d3.csv("https://raw.githubusercontent.com/mdinauta/CS-598-Data-Visualization/mai
 
 })
 </script>
+
+<p id='description'>
+This chart displays federal spending by both category and year.<br>
+<br>
+<b>Hover the mouse over a bar to display the value for that category.<b>
+</p>

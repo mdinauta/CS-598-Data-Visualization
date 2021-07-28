@@ -112,13 +112,6 @@ d3.csv("https://raw.githubusercontent.com/mdinauta/CS-598-Data-Visualization/mai
     .attr("width", function(d) { return x(d.Value); })
     .attr("height", y.bandwidth() )
     .attr("fill", "#69b3a2")
-    .on("mouseover", function(d,i) {
-      tooltip.style("opacity", 1)
-             .style("left", (d3.event.pageX)+"px")
-             .style("top", (d3.event.pageY)+"px")
-             .html("Total Outlays: "+d.Value);
-    })
-    .on("mouseout", function() {tooltip.style("opacity", 0)})
 
 })
 
@@ -127,7 +120,5 @@ d3.csv("https://raw.githubusercontent.com/mdinauta/CS-598-Data-Visualization/mai
 <p id='description'>
 This chart displays 2020 federal spending by category. These categories are determiend by the congressional budget office (CBO).<br>
 Note that the category with third-highest spend total is "Other Programs" - this is the category in which much COVID-related relief spending was placed.<br>
-<br>
-<b>Hover the mouse over a bar to display the value for that category.<b>
 </p>
 

@@ -185,7 +185,7 @@ svg.append("text")
     .attr("text-anchor", "middle")
     .attr("x", width/2)
     .attr("y", height + margin.top)
-    .text("Total Budget");
+    .text("Total Outlays (billions)");
 
 // A function that create / update the plot for a given variable:
 function update(data) {
@@ -219,10 +219,12 @@ update(data1)
 
 <p id='description'>
 This chart displays federal spending by category for the selected year.<br>
-Click through the year buttons to see how the budget has changed over time. The ordering of the columns will stay the same throughout - <br>
-this ordering reflects the ranking of categories in 2020. 
-
-We see that Defense was the largest spending category up until the 2000s, when it began to be outpaced by Social Security.
-We also see that the spend attributed to the "Other Programs" category was negliable prior to 2020, when it became the category to which COVID-19
-related spend was allocated.
+<br>
+Click through the year buttons to see how spending has changed over time. The ordering of the columns will stay the same throughout - this ordering <br>
+reflects the relative ranking of the categories in 2020.<br>
+<br>
+We see that Defense was the largest spending category up until the 2000s, when it began to be outpaced by Social Security.<br>
+We also see that the spend attributed to the "Other Programs" category was negliable prior to 2020, when it became the category to which much COVID-19<br>
+related spend was allocated. Similiarly, we see that spending in the "Income Security" category doubled between 2010 and 2020. This category was also<br>
+impacted by the COVID-19 crisis.
 </p>
